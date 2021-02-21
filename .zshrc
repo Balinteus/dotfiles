@@ -18,29 +18,12 @@ fi
 export GPG_AGENT_INFO=${HOME}/.gnupg/S.gpg-agent:0:1
 
 # Theme
-#######
 ZSH_THEME="cleanified"
 
-# Additional Options
-####################
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS=true
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
 # Plugins
-#########
 plugins=(git python zsh-autosuggestions zsh-syntax-highlighting npm)
 
 source $ZSH/oh-my-zsh.sh
-
-# User configuration
-####################
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
