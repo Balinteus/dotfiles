@@ -1,0 +1,12 @@
+[core]
+	autocrlf = input
+[user]
+	email = balinteus@gmail.com
+	name = Bálint Gonda
+	#signingkey = 
+[commit]
+	gpgsign = true
+[tag]
+	gpgsign = true
+[credential "https://github.com"]
+	helper = !gh auth git-credential
