@@ -53,7 +53,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 while true; do
   read -p "Do you want to install some basic binaries? (y/n) " optb
   case $optb in
-    [Yy]* ) ./install_binaries.sh; break;;
+    [Yy]* ) xargs -a binaries sudo apt install; break;;
     [Nn]* ) break;;
   esac
 done
