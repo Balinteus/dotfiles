@@ -1,5 +1,6 @@
 [core]
 	autocrlf = input
+	editor = vi
 [user]
 	email = balinteus@gmail.com
 	name = Bálint Gonda
