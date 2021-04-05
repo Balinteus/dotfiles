@@ -21,12 +21,15 @@ export GPG_AGENT_INFO=${HOME}/.gnupg/S.gpg-agent:0:1
 ZSH_THEME="cleanified"
 
 # Plugins
-plugins=(git python zsh-autosuggestions zsh-syntax-highlighting npm)
+plugins=(git python zsh-autosuggestions zsh-syntax-highlighting vi-mode npm)
 
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
+
+# Keybinds
+bindkey -M viins 'jk' vi-cmd-mode
 
 # Custom Aliases
 alias zshconfig="vim ~/.zshrc"
