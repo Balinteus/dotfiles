@@ -46,14 +46,14 @@ custom_themes=".oh-my-zsh/custom/themes"
 ln -sf ${dotfilesdir}/${custom_themes}/cleanified.zsh-theme ${homedir}/${custom_themes}/cleanified.zsh-theme
 
 # Install ZSH plugins
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+cd $homedir
+xargs -a ${dotfilesdir}/zsh-plugins -e -n 2 git clone
 
 # Basic Binaries (Optional)
 while true; do
   read -p "Do you want to install some basic binaries? (y/n) " optb
   case $optb in
-    [Yy]* ) xargs -a binaries sudo apt install; break;;
+    [Yy]* ) cd $dotfilesdir && xargs -a binaries -p sudo apt install; break;;
     [Nn]* ) break;;
   esac
 done
