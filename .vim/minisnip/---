@@ -1,0 +1,8 @@
+---
+title: {{+Untitled document+}}
+author: Bálint Gonda
+date: {{+~strftime("%Y-%m-%d")+}}
+---
+
+{{++}}
+

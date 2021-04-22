@@ -34,6 +34,7 @@ Plug 'sbdchd/neoformat'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'sheerun/vim-polyglot'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'joereynolds/vim-minisnip'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
