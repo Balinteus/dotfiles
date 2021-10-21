@@ -1,6 +1,6 @@
-""""""""""""""""""""""""""""""""
-" Bálint Gonda's .vimrc config "
-""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""
+" Bálint Gonda's .vimrc "
+"""""""""""""""""""""""""
 
 """ Set Encoding
 """"""""""""""""
@@ -9,6 +9,7 @@ set fileencoding=utf-8
 
 """ GVIM Settings
 """""""""""""""""
+au GUIEnter * simalt ~x  " Maximize on start
 set backspace=indent,eol,start
 set guioptions=-m   " Hide menu bar
 
@@ -21,7 +22,7 @@ filetype off                  " required
 """"""""""""""""""""""""""""""
 let g:polyglot_disabled = ['markdown']
 
-call plug#begin('../vimfiles/plugged')
+call plug#begin('~/.vim/plugged')
 
 Plug 'scrooloose/nerdtree'
 Plug 'itchyny/lightline.vim'
@@ -61,6 +62,8 @@ inoremap ' ''<left>
 inoremap ( ()<left>
 inoremap [ []<left>
 inoremap { {}<left>
+inoremap ` ``<left>
+inoremap < <><left>
 
 """ VIM Basic Config
 """"""""""""""""""""
@@ -127,12 +130,17 @@ nnoremap <leader>l :wincmd l<CR>
 """ NERDTree Plugin Config
 """"""""""""""""""""""""""
 autocmd VimEnter * NERDTree | wincmd p
+let NERDTreeShowBookmarks=1
+let NERDTreeShowHidden=1
 nnoremap <leader>é :NERDTreeFocus<CR>
-nnoremap <C-é> :NerdTree<CR>
+nnoremap <leader><leader>é :NERDTreeToggle<CR>
 nnoremap <leader>f :NERDTreeFind<CR>
 
 """ Markdown Config
 """"""""""""""""""""""
+
+" Set miniSnip location
+let g:minisnip_dir = "~/.vim/minisnip"
 
 " Use gruvbox when editing .md files
 autocmd BufEnter,BufNewFile *.md colorscheme gruvbox
