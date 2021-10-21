@@ -39,11 +39,14 @@ for file in ${base_dotfiles}; do
   ln -sf ${dotfilesdir}/.${file} ${homedir}/.${file}
 done
 
-# Linking other files
+# Linking other files/folders
 
 ## Oh-My-Zsh Custom Theme
 custom_themes=".oh-my-zsh/custom/themes"
 ln -sf ${dotfilesdir}/${custom_themes}/cleanified.zsh-theme ${homedir}/${custom_themes}/cleanified.zsh-theme
+
+## .vim Folder
+ln -sf ${dotfilesdir}/.vim/ ${homedir}/.vim/
 
 # Install ZSH plugins
 cd $homedir
