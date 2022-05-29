@@ -28,13 +28,10 @@ Plug 'scrooloose/nerdtree'
 Plug 'itchyny/lightline.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
-Plug 'pangloss/vim-javascript'
 Plug 'airblade/vim-gitgutter'
 Plug 'easymotion/vim-easymotion'
-Plug 'sbdchd/neoformat'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'sheerun/vim-polyglot'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'joereynolds/vim-minisnip'
 
 " All of your Plugins must be added before the following line
@@ -73,7 +70,7 @@ set number
 set ruler
 
 " Set clipboard to system default
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 " No error bell
 set noerrorbells
