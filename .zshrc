@@ -17,6 +17,15 @@ fi
 
 export GPG_AGENT_INFO=${HOME}/.gnupg/S.gpg-agent:0:1
 
+# Colored MAN pages
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
+
 # Theme
 ZSH_THEME="cleanified"
 
@@ -28,6 +37,9 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
+# Instant autocomplete
+setopt menu_complete
+
 # Keybinds
 bindkey -M viins 'jk' vi-cmd-mode
 
@@ -35,7 +47,7 @@ bindkey -M viins 'jk' vi-cmd-mode
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="cd ~/.oh-my-zsh"
 alias py="python3"
-alias pip="pip3"
+alias pip="python3 -m pip"
 alias reloadzsh="source ~/.zshrc"
 
 # Custom Functions
