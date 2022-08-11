@@ -13,6 +13,16 @@ au GUIEnter * simalt ~x  " Maximize on start
 set backspace=indent,eol,start
 set guioptions=-m   " Hide menu bar
 
+if has("win32")
+  " Set minisnip location
+  let g:minisnip_dir = expand('$VIM/vimfiles/minisnip')
+  " Set plugged location
+  let plugged_dir = '$VIM/vimfiles/plugged'
+else
+  let g:minisnip_dir = '~/.vim/minisnip'
+  let plugged_dir = '~/.vim/plugged'
+endif
+
 """ Plug Config
 """""""""""""""""
 set nocompatible              " be iMproved, required
@@ -22,7 +32,7 @@ filetype off                  " required
 """"""""""""""""""""""""""""""
 let g:polyglot_disabled = ['markdown']
 
-call plug#begin('~/.vim/plugged')
+call plug#begin(plugged_dir)
 
 Plug 'scrooloose/nerdtree'
 Plug 'itchyny/lightline.vim'
@@ -135,9 +145,6 @@ nnoremap <leader>f :NERDTreeFind<CR>
 
 """ Markdown Config
 """"""""""""""""""""""
-
-" Set miniSnip location
-let g:minisnip_dir = "~/.vim/minisnip"
 
 " Use gruvbox when editing .md files
 autocmd BufEnter,BufNewFile *.md colorscheme gruvbox
