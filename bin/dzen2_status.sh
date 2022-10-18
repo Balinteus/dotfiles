@@ -11,7 +11,7 @@
 # -------------------------
 # Dzen settings & Variables
 # -------------------------
-ICONPATH="$HOME/.icons/dzen2-icons"
+ICONPATH="$HOME/.dotfiles/.icons/dzen2-icons"
 COLOR_ICON="#a01416"
 SEPARATOR_COLOR="#ff0a0a"
 GOOD_COLOR="#00ff00"
@@ -120,9 +120,12 @@ Date ()
 Battery ()
 {
 	BATTERY_PERCENT=$(acpi -b | grep 'Discharging,' | awk '{print $4}' | tr -d ',')
+	OTHER_BATTERY_PERCENT=$(acpi -b | grep 'Unknown' | awk '{print $4}' | tr -d '%,\n')
 	if [ "${BATTERY_PERCENT}" = "" ] ; then
 		BATTERY_PERCENT=$(acpi -b | grep 'Charging,' | awk '{print $4}' | tr -d ',')
 		echo -n "^fg($COLOR_ICON)^i($ICONPATH/ac_01.xbm)^fg() ${BATTERY_PERCENT}"
+	elif [[ ${OTHER_BATTERY_PERCENT} -le 5 ]] ; then
+		echo -n "^fg($COLOR_ICON)^i($ICONPATH/bat_empty_02.xbm)^fg() ${BATTERY_PERCENT}"
 	else
 		echo -n "^fg($COLOR_ICON)^i($ICONPATH/bat_full_02.xbm)^fg() ${BATTERY_PERCENT}"
 	fi
