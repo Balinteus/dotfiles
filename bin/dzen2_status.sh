@@ -121,6 +121,11 @@ Battery ()
 {
 	BATTERY_PERCENT=$(acpi -b | grep 'Discharging,' | awk '{print $4}' | tr -d ',')
 	OTHER_BATTERY_PERCENT=$(acpi -b | grep 'Unknown' | awk '{print $4}' | tr -d '%,\n')
+
+	if [ "${OTHER_BATTERY_PERCENT}" = "" ] ; then
+		OTHER_BATTERY_PERCENT=$(acpi -b | grep 'Not charging' | awk '{print $5}' | tr -d '%,\n')
+	fi
+
 	if [ "${BATTERY_PERCENT}" = "" ] ; then
 		BATTERY_PERCENT=$(acpi -b | grep 'Charging,' | awk '{print $4}' | tr -d ',')
 		echo -n "^fg($COLOR_ICON)^i($ICONPATH/ac_01.xbm)^fg() ${BATTERY_PERCENT}"
