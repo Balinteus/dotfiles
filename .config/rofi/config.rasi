@@ -1,7 +1,7 @@
 configuration {
 /*	modi: "window,run,ssh";*/
 /*	font: "mono 12";*/
-  font: "Terminus 15";
+  font: "Terminus 10";
 /*	location: 0;*/
 /*	yoffset: 0;*/
 /*	xoffset: 0;*/
@@ -147,4 +147,4 @@ configuration {
       sorting-method:    "name";
   }
 }
-@theme "Arc-Dark"
+@theme "Arc-Dark-Mod"
