@@ -10,6 +10,7 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod1
+set $sup Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -219,6 +220,9 @@ bar {
                 focused_workspace #ff0a0a #a01416 #e3dbb4
         }
 }
+
+# Clipboard Manager
+bindcode $sup+55 exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 # Colors
 ## class border background text indicator
