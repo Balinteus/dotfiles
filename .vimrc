@@ -9,11 +9,12 @@ set fileencoding=utf-8
 
 """ GVIM Settings
 """""""""""""""""
-au GUIEnter * simalt ~x  " Maximize on start
 set backspace=indent,eol,start
 set guioptions=-m   " Hide menu bar
 
 if has("win32")
+  " Maximize on start
+  au GUIEnter * simalt ~x
   " Set minisnip location
   let g:minisnip_dir = expand('$VIM/vimfiles/minisnip')
   " Set plugged location
