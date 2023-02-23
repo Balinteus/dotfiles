@@ -1,0 +1,30 @@
+From 5187b1af7910fa7866f03ea30325272da9686d42 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?B=C3=A1lint=20Gonda?= <balinteus@gmail.com>
+Date: Thu, 23 Feb 2023 16:06:53 +0100
+Subject: [PATCH] Add smoother MonthListView scroll
+
+---
+ .../main/java/com/android/calendar/month/MonthListView.java | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/app/src/main/java/com/android/calendar/month/MonthListView.java b/app/src/main/java/com/android/calendar/month/MonthListView.java
+index f4962e58..8abb68b5 100644
+--- a/app/src/main/java/com/android/calendar/month/MonthListView.java
++++ b/app/src/main/java/com/android/calendar/month/MonthListView.java
+@@ -39,10 +39,10 @@ public class MonthListView extends ListView {
+     // fling. Above MULTIPLE_MONTH_VELOCITY_THRESHOLD, do multiple month flings according to the
+     // fling strength. When doing multiple month fling, the velocity is reduced by this threshold
+     // to prevent moving from one month fling to 4 months and above flings.
+-    private static int MIN_VELOCITY_FOR_FLING = 1500;
+-    private static int MULTIPLE_MONTH_VELOCITY_THRESHOLD = 2000;
++    private static int MIN_VELOCITY_FOR_FLING = 1;
++    private static int MULTIPLE_MONTH_VELOCITY_THRESHOLD = 5000;
+     private static int FLING_VELOCITY_DIVIDER = 500;
+-    private static int FLING_TIME = 1000;
++    private static int FLING_TIME = 500;
+ 
+     // disposable variable used for time calculations
+     protected Time mTempTime;
+-- 
+2.25.1
+

@@ -1,0 +1,25 @@
+From fafc69a920164cb9b555bb581baa5e9e08cabe12 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?B=C3=A1lint=20Gonda?= <balinteus@gmail.com>
+Date: Thu, 23 Feb 2023 16:12:12 +0100
+Subject: [PATCH] Rename the app to the main app_label
+
+---
+ app/src/main/AndroidManifest.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+index d67e56c3..bb116aad 100644
+--- a/app/src/main/AndroidManifest.xml
++++ b/app/src/main/AndroidManifest.xml
+@@ -59,7 +59,7 @@
+         android:requestLegacyExternalStorage="true"
+         android:hardwareAccelerated="true"
+         android:icon="@mipmap/ic_launcher"
+-        android:label="@string/standalone_app_label"
++        android:label="@string/app_label"
+         android:taskAffinity="ws.xsoh.etar.task"
+         android:requiredAccountType="*"
+         android:usesCleartextTraffic="false"
+-- 
+2.25.1
+
