@@ -1,0 +1,115 @@
+#!/bin/sh
+
+# gitea_remote_updater.sh - A small script that updates my remote URLs, so I can access my self-hosted gitea instance easily.
+#
+# Usage:
+#   - The script can be configured with the environmental variables listed below.
+#   - GITEA_ACCESS_POINTS -> Example value: "111.666.111.18:git.example.com:10.0.0.0"
+#   - GITEA_PORT -> (OPTIONAL) Specify the instance's port here. Example value: "8080"
+#   - GITEA_SAFE -> (OPTIONAL) Set it to "true" if you instance uses HTTPS.
+
+# CONSTANTS
+PROTOCOLS=('http://' 'https://')
+
+# VARIABLES
+access_points=()
+access_point_protocol=''
+selected_access_point=''
+origin_is_gitea=0
+
+# See if the instance uses https or not
+if [[ "$GITEA_SAFE" == "true" ]]; then
+  access_point_protocol="${PROTOCOLS[1]}"
+else
+  access_point_protocol="${PROTOCOLS[0]}"
+fi
+
+# Get the instance's access points
+if [[ ! -z "$GITEA_ACCESS_POINTS" ]]; then
+  IFS=':' read -r -a access_points <<< "$GITEA_ACCESS_POINTS"
+else
+  echo "ERROR: Can't find the access points!"
+  echo "Make sure to set the the GITEA_ACCESS_POINTS environmental variable in your .profile with your instance's IPs with : between each value!"
+  exit 1
+fi
+
+# Get the working one
+function get_working_access_point() {
+  local index="${1:-0}"
+  local t=$(timeout 2 ping -c 1 ${access_points[index]} | grep -m 1 "bytes from" | awk '{print $4}' | tr -d ':')
+
+  if [[ "$t" == "${access_points[index]}" ]]; then
+    echo "$t"
+  elif [[ "$((${#access_points[@]}-1))" -ge "$(($index + 1))" ]]; then
+    get_working_access_point $(($index + 1))
+  else
+    echo "ERROR: None of the given hosts are available at the moment."
+    exit 1
+  fi
+}
+
+# Construct the URL
+if [[ ! -z "$GITEA_PORT" ]]; then
+  selected_access_point="$access_point_protocol$(get_working_access_point):$GITEA_PORT/"
+else
+  selected_access_point="$access_point_protocol$(get_working_access_point)/"
+fi
+
+# A function that changes the remote's URL to a newly constructed URL that points to the correct repo
+function change_url() {
+  local remote="${1:-origin}"
+
+  local repo="$(git remote get-url origin | tr -s '/' ' ' | awk '{print $(NF-1)"/"$NF}')"
+  local url="$selected_access_point$repo"
+
+  if [[ $(git remote get-url $remote) == $url ]]; then
+    echo "The URL is up-to-date! Aborting update..."
+  else
+    read -p "Do you want to change the $remote remote's url to: $url? [Y/n] " in_rc
+    [ -z "$in_rc" ] && in_rc="Y"
+    case $in_rc in
+      [Yy]* ) git remote set-url $remote $url;echo "Done!";exit;;
+      * ) echo "Exiting..."; exit;;
+    esac
+  fi
+}
+
+function add_gitea_remote() {
+  local repo="$(git remote get-url origin | tr -s '/' ' ' | awk '{print $(NF-1)"/"$NF}')"
+  local url="$selected_access_point$repo"
+
+
+  read -p "Do you want to create a new remote called: gitea, with the generated URL? [Y/n] " in_ra
+  [ -z "$in_ra" ] && in_ra="Y"
+  case $in_ra in
+    [Yy]* ) git remote add gitea $url;echo "Done!";exit;;
+    * ) echo "Exiting..."; exit;;
+  esac
+}
+
+
+# Changing the remote, BUT only if the PWD is a git repository
+if [[ ! -z $(git remote 2> /dev/null) ]]; then
+  for access_point in "${access_points[@]}"
+  do
+    if [[ ! -z "$(git remote get-url origin | grep $access_point)" ]]; then
+      origin_is_gitea=1
+      echo "The remote 'ORIGIN' is pointing to a gitea instance, updating its URL..."
+      change_url
+      break
+    else
+      continue
+    fi
+  done
+
+  if [[ ! -z "$(git remote show | grep gitea)" ]]; then
+    echo "A remote with the name of 'gitea' exists! Updating its URL..."
+    change_url gitea
+  elif [[ -z "$(git remote show | grep gitea)" && $origin_is_gitea != 1 ]]; then
+    # See if the user wants to create a new remote called gitea, with the constructed URL
+    add_gitea_remote
+  fi
+else
+  echo "ERROR: This is not a git project."
+  exit 1
+fi
