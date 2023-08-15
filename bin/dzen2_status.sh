@@ -59,7 +59,7 @@ Mem ()
 {
 	#MEM=$(free -m | grep 'Mem' | tr -s '[:blank:]' | awk '{print $3, "M"}')
 	MEM=$(free -h --si | grep 'Mem:' | tr -s '[:blank:]' | awk '{print substr($3, 1, length($3)-1), substr($3, length($3), 1)}')
-	echo -n "^fg($COLOR_ICON)^i($ICONPATH/mem.xbm)^fg() ${MEM}"
+	echo -n "^ca(1,alacritty -e htop)^fg($COLOR_ICON)^i($ICONPATH/mem.xbm)^fg() ${MEM}^ca()"
 	return
 }
 
@@ -89,7 +89,7 @@ Wifi ()
 {
 	WIFI_INFO=$(iw dev wlp4s0 link)
 	if [ "${WIFI_INFO}" = "Not connected." ] ; then
-		echo -n "^fg($COLOR_ICON)^i($ICONPATH/wifi_02.xbm)^fg($CRIT_COLOR) down"
+		echo -n "^ca(1,alacritty -e nmtui)^fg($COLOR_ICON)^i($ICONPATH/wifi_02.xbm)^fg($CRIT_COLOR) down^ca()"
 	else
 		ESSID=$(echo "${WIFI_INFO}" | grep 'SSID:' | awk '{print $2}')
 		QUALITY=$(nmcli dev wifi | grep "*" | tr -s '[:blank:]' | awk '{print $8}')
@@ -98,7 +98,7 @@ Wifi ()
 		else
 			QUALITY_COLOR=$MODERATE_COLOR
 		fi
-		echo -n "^fg($COLOR_ICON)^i($ICONPATH/wifi_02.xbm)^fg() ${ESSID} (^fg($QUALITY_COLOR)${QUALITY}%^fg())"
+		echo -n "^ca(1,alacritty -e nmtui)^fg($COLOR_ICON)^i($ICONPATH/wifi_02.xbm)^fg() ${ESSID} (^fg($QUALITY_COLOR)${QUALITY}%^fg())^ca()"
 	fi
 	return
 }
@@ -149,7 +149,7 @@ OSLogo ()
 {
 	#OS=$(uname -a | awk '{print $2}')
 	#echo -n " ^fg($COLOR_ICON)^i($ICONPATH/${OS}.xbm)^fg()"
-	echo -n " ^fg($COLOR_ICON)^i($ICONPATH/arch.xbm)^fg()"
+	echo -n " ^ca(1,flameshot gui)^fg($COLOR_ICON)^i($ICONPATH/arch.xbm)^fg()^ca()"
 	return
 }
 # --------- End Of Functions
