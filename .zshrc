@@ -35,6 +35,7 @@ bindkey -M viins 'jk' vi-cmd-mode
 alias py="python3"
 alias pip="python3 -m pip"
 alias reloadzsh="source ~/.zshrc"
+alias gitr="~/.dotfiles/bin/gitea_remote_updater.sh"
 
 # Custom Functions
 function gpp() {
