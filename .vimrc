@@ -44,9 +44,6 @@ filetype plugin indent on
 """ The most important remaps
 let mapleader="\<Space>"
 inoremap jk <ESC>
-inoremap <ESC> <NOP>
-vnoremap jk <ESC>
-vnoremap <ESC> <NOP>
 cnoremap jk <ESC>
 
 """ General vim settings
