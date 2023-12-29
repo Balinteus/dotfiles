@@ -62,6 +62,7 @@ set smartindent
 set nowrap
 set scrolloff=8
 set signcolumn=yes
+set shortmess-=S
 
 """ Theme settings
 colorscheme onedark
