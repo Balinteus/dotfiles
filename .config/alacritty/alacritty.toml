@@ -1,0 +1,42 @@
+[env]
+TERM = "xterm-256color"
+
+# Modified version of chrsd's GetFresh Colorscheme (http://dotshare.it/dots/199/)
+[colors]
+
+[colors.primary]
+background = "0x151515"
+foreground = "0xddccbb"
+
+[colors.normal]
+black = "0x393939"
+blue = "0x1ca1db"
+cyan = "0xa21517"
+green = "0x9dba3a"
+magenta = "0x652f90"
+red = "0xbf1e2d"
+white = "0xe7e8e9"
+yellow = "0xf5b915"
+
+[colors.bright]
+black = "0xaf875f"
+blue = "0x00afda"
+cyan = "0xcf4649"
+green = "0xa9c938"
+magenta = "0x894e9f"
+red = "0xe7212a"
+white = "0xf3f3f4"
+yellow = "0xf7d325"
+
+[font]
+size = 10
+normal = { family = "jmk Neep", style = "SemiCondensed" }
+bold = { family = "jmk Neep", style = "Bold"}
+italic = { family = "jmk Neep", style = "Italic" }
+bold_italic = { family = "jmk Neep", style = "Bold Italic" }
+
+[keyboard]
+bindings = [
+  { action = "IncreaseFontSize", key = "K", mods = "Control|Shift" },
+  { action = "DecreaseFontSize", key = "J", mods = "Control|Shift" }
+]
