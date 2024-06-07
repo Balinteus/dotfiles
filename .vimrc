@@ -99,6 +99,7 @@ let NERDTreeShowHidden=1
 nnoremap <leader>é :NERDTreeFocus<CR>
 nnoremap <leader><leader>é :NERDTreeToggle<CR>
 nnoremap <leader>f :NERDTreeFind<CR>
+let g:netrw_banner=0
 
 """ Markdown config (for note-taking)
 autocmd BufEnter,BufNewFile *.md colorscheme gruvbox
