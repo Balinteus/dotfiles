@@ -1,0 +1,37 @@
+" Balinteus' (minimal) .vimrc
+set encoding=utf-8
+set fileencoding=utf-8
+set expandtab tabstop=4 shiftwidth=4 softtabstop=4
+"set noswapfile
+
+syntax enable
+
+set nu
+set rnu
+set ruler
+
+set background=dark
+set belloff=all
+
+let mapleader="\<Space>"
+let g:netrw_banner=0
+
+set incsearch
+
+set cursorline
+highlight CursorLine cterm=NONE ctermbg=darkgrey ctermfg=NONE guibg=darkgrey guifg=NONE
+
+set clipboard=unnamed
+
+" ESC remap
+inoremap jk <ESC>
+cnoremap jk <ESC>
+
+" Surround
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap ` ``<left>
+inoremap < <><left>

@@ -1,0 +1,10 @@
+# Balinteus' (minimal) .bashrc
+
+# Show dirs first when using ls
+alias ls="ls --group-directories-first --color=auto"
+alias la="ls -la"
+
+# Setup vi-motions
+set -o vi
+bind '"jk":vi-movement-mode'
+bind -m vi-insert 'Control-l: clear-screen'
