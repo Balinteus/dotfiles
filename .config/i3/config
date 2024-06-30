@@ -123,9 +123,9 @@ bindsym $mod+a focus parent
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1: main"
 set $ws2 "2: web"
-set $ws3 "3: terms"
-set $ws4 "4: media"
-set $ws5 "5"
+set $ws3 "3: art"
+set $ws4 "4: terms"
+set $ws5 "5: media"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
