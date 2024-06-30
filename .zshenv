@@ -1,6 +1,6 @@
 # Basic environment variables
 export TERMINAL="alacritty"
-export EDITOR="vim"
+export EDITOR="nvim"
 export BROWSER="firefox"
 
 # GUI Theming
@@ -19,6 +19,10 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
+
+# History file settings
+export HISTSIZE=100000000
+export SAVEHIST=100000000
 
 # Setting XDG Base directories
 export XDG_CONFIG_HOME="$HOME/.config"
