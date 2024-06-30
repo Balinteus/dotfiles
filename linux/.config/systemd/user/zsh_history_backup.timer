@@ -1,0 +1,10 @@
+[Unit]
+Description=Monthly backup of the $HISTFILE
+
+[Timer]
+OnCalendar=monthly
+Persistent=true
+Unit=zsh_history_backup.service
+
+[Install]
+WantedBy=timers.target
