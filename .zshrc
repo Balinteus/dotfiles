@@ -1,3 +1,6 @@
+# Print out the system MOTD
+cat /etc/motd
+
 # Theme
 ZSH_THEME="cleanified"
 
@@ -26,3 +29,4 @@ alias diffdir="diff -bur"
 alias info="info --vi-keys"
 alias ao="alacritty msg config -- -1 window.opacity=0.85"
 alias aoo="alacritty msg config -- -1 window.opacity=1"
+alias tree="tree --dirsfirst"
