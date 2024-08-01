@@ -4,5 +4,5 @@ pandoc
 tmux
 tldr
 curl
-jcurl
+jless
 less
