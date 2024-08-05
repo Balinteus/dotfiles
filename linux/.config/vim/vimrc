@@ -16,8 +16,8 @@ if has("win32")
   let g:minisnip_dir = expand('$VIM/vimfiles/minisnip')
   let plugged_dir = '$VIM/vimfiles/plugged'
 else
-  let g:minisnip_dir = '~/.vim/minisnip'
-  let plugged_dir = '~/.vim/plugged'
+  let g:minisnip_dir = '$XDG_CONFIG_HOME/vim/minisnip'
+  let plugged_dir = '$XDG_DATA_HOME/vim/plugged'
 endif
 
 """ Plugins
