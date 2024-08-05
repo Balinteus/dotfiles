@@ -37,9 +37,7 @@ setup_omz()
   sh -c "$(curl -fsSL $omz_url)" "" --unattended --keep-zshrc
 
   echo -e "${PREFIX_ADDITION} Cloning custom zsh plugins...$X"
-  cat $DOTFILES_DIR/linux/.config/zsh/zsh-plugins
-    | sed "s|*|${ZSH}|g"
-    | xargs -L 1 -r git clone
+  cat $DOTFILES_DIR/linux/.config/zsh/zsh-plugins | sed "s|*|${ZSH}|g" | xargs -L 1 -r git clone
 
   # Linking the omz custom configs
   echo -e "${PREFIX_LINKING} Symlinking omz configs...$X"
