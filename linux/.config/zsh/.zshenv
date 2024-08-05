@@ -33,6 +33,9 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 
+# Path to the dotfiles
+export DOTFILES_DIR="$HOME/.dotfiles"
+
 # Pointing directories/files to XDG Base Directories
 # (to remove junk from the home directory)
 export ZDOTDIR="$HOME/.config/zsh"
