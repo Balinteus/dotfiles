@@ -24,6 +24,9 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 export HISTSIZE=100000000
 export SAVEHIST=100000000
 
+# RFC 3339 like date format for ls invocations
+export TIME_STYLE="long-iso"
+
 # Setting XDG Base directories
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
