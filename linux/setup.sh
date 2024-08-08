@@ -30,20 +30,6 @@ init()
   done
 }
 
-setup_omz()
-{
-  echo -e "${PREFIX_ADDITION} Installing oh-my-zsh...$X"
-  omz_url="https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
-  sh -c "$(curl -fsSL $omz_url)" "" --unattended --keep-zshrc
-
-  echo -e "${PREFIX_ADDITION} Cloning custom zsh plugins...$X"
-  cat $DOTFILES_DIR/linux/.config/zsh/zsh-plugins | sed "s|*|${ZSH}|g" | xargs -L 1 -r git clone
-
-  # Linking the omz custom configs
-  echo -e "${PREFIX_LINKING} Symlinking omz configs...$X"
-  stow -d "$DOTFILES_DIR/linux/.local/share" -t "$XDG_DATA_HOME/oh-my-zsh" oh-my-zsh
-}
-
 minimal_setup()
 {
   # Make sure that the specified XDG base dirs exist
@@ -95,21 +81,40 @@ plugin manager? (y/n)$X "
     esac
   done
 
-  # Linking essential configs (except omz's)
+  # Linking essential configs
   echo -e "${PREFIX_LINKING} Symlinking essential CLI config files:$X"
   ESSENTIAL_CONFIGS=(zsh git tmux)
   for CONF in "${ESSENTIAL_CONFIGS[@]}"; do
+    # Linking configs
     echo -e "\t- $CONF"
     mkdir $XDG_CONFIG_HOME/$CONF
     stow -d "$DOTFILES_DIR/linux/.config" -t "$XDG_CONFIG_HOME/$CONF" $CONF
+
+    # Linking data files
+    if [[ -d "$DOTFILES_DIR/linux/.local/share/$CONF" ]]; then
+      if [[ ! -d "$XDG_DATA_HOME/$CONF" ]]; then
+        mkdir -p "$XDG_DATA_HOME/$CONF"
+      fi
+      stow -d "$DOTFILES_DIR/linux/.local/share" -t "$XDG_DATA_HOME/$CONF" $CONF
+    fi
   done
 
-  # OMZ setup
+  # Linking scripts
+  echo -e "${PREFIX_LINKING} Linking scripts..."
+  if [[ ! -d "$SCRIPTS_HOME" ]]; then mkdir -p "$SCRIPTS_HOME"; fi
+  stow -d "$DOTFILES_DIR/linux/.local" -t "$SCRIPTS_HOME" bin
+
+  # Installing ZSH plugins
   while true; do
-    echo -e "${PREFIX_HEADER}Do you want to setup oh-my-zsh? (y/n)$X"
+    echo -e "${PREFIX_HEADER}Do you want to install the ZSH plugins? (y/n)$X"
     read opts
     case $opts in
-      [Yy]* ) setup_omz; break;;
+      [Yy]* )
+        echo -e "${PREFIX_ADDITION} Cloning custom zsh plugins...$X"
+        cat $DOTFILES_DIR/linux/.config/zsh/zsh-plugins |
+          sed "s|*|${ZSH}|g"                            |
+          xargs -L 1 -r git clone
+        break;;
       [Nn]* ) break;;
     esac
   done
@@ -122,10 +127,15 @@ full_setup()
   # Setup the CLI
   minimal_setup
 
-  # Link the rest of the config files
+  # Link the rest of the config files & data files
   echo -e "${PREFIX_LINKING} Linking all the other config files...$X"
-  stow --dir="$DOTFILES_DIR/linux" --target="$XDG_CONFIG_HOME" .config
-  stow --dir="$DOTFILES_DIR/linux/.local" --target="$XDG_DATA_HOME" share
+  stow -d "$DOTFILES_DIR/linux" -t "$XDG_CONFIG_HOME" .config
+  stow -d "$DOTFILES_DIR/linux/.local" -t "$XDG_DATA_HOME" share
+
+  # Link the templates dir
+  source "$DOTFILES_DIR/linux/.config/user-dirs.dirs"
+  if [[ ! -d "$XDG_TEMPLATES_HOME" ]]; then mkdir -p "$XDG_TEMPLATES_DIR"; fi
+  stow -d "$DOTFILES_DIR/linux/.local" -t "$XDG_TEMPLATES_DIR" templates
 
   # Load the Cinnamon configs
   while true; do
@@ -142,5 +152,7 @@ full_setup()
 
   echo -e "${PREFIX_SUCCESS}Finished setting up the GUI!$X"
 }
+
+init
 
 echo -e "${PREFIX_SUCCESS}You are all set! 🎉🎉$X"
