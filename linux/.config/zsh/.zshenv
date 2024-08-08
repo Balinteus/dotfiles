@@ -35,6 +35,10 @@ export XDG_STATE_HOME="$HOME/.local/state"
 
 # Path to the dotfiles
 export DOTFILES_DIR="$HOME/.dotfiles"
+export SCRIPTS_HOME="$HOME/.local/bin"
+
+# Setup PATH
+export PATH="$PATH:$SCRIPTS_HOME"
 
 # Pointing directories/files to XDG Base Directories
 # (to remove junk from the home directory)
