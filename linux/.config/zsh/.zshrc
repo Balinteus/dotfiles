@@ -52,3 +52,5 @@ alias diffdir="diff -bur"
 alias ao="alacritty msg config -- -1 window.opacity=0.85"
 alias aoo="alacritty msg config -- -1 window.opacity=1"
 alias explorer="nemo ."
+alias huspell='(){ echo $1 | hunspell -d hu_HU ;}'
+alias enspell='(){ echo $1 | hunspell -d en_US ;}'
