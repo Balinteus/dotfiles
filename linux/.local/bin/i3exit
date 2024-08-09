@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/sh
 
 # ---------------------------------------
 # file:     $HOME/.dotfiles/bin/i3exit.sh
