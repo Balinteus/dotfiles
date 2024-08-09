@@ -1,0 +1,1 @@
+Place them into the "C:\Program Files (x86)\CustomIcons\" folder.
