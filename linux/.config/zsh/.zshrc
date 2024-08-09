@@ -16,6 +16,8 @@ source $ZDOTDIR/init.zsh
 
 # Setup autocompletion
 zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' matcher-list \
+	'm:{[:lower:][:upper:]-_}={[:upper:][:lower:]_-}' 'r:|=*' 'l:|=* r:|=*'
 compinit -d $ZSH_COMPDUMP
 
 # Shell options
