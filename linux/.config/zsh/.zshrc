@@ -18,6 +18,7 @@ source $ZDOTDIR/init.zsh
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*' matcher-list \
 	'm:{[:lower:][:upper:]-_}={[:upper:][:lower:]_-}' 'r:|=*' 'l:|=* r:|=*'
+[[ -z "$LS_COLORS" ]] || zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 compinit -d $ZSH_COMPDUMP
 
 # Shell options
