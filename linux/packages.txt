@@ -7,6 +7,7 @@ boomer-git
 cinnamon
 curl
 dbeaver
+dictd
 dmenu
 dotnet-sdk-6.0
 dzen2
@@ -28,6 +29,9 @@ gvfs
 gvfs-gphoto2
 gvfs-mtp
 htop
+hunspell
+hunspell-en_us
+hunspell-hu
 inkscape
 jless
 jmk-x11-fonts
