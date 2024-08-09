@@ -163,7 +163,7 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 #bindsym $mod+Shift+e exit
-bindsym $mod+Shift+e exec sh $HOME/.dotfiles/bin/i3exit.sh
+bindsym $mod+Shift+e exec sh $HOME/.dotfiles/linux/.local/bin/i3exit
 
 # Screenshot
 bindsym 0xff61 exec scrot ~/Desktop/Screenshots/screenshot_%Y_%m_%d_%H_%M_%S.png
@@ -232,4 +232,4 @@ client.focused  #ffffff #a01416 #ffffff #ff0a0a
 # Set wallpaper
 exec --no-startup-id exec feh --bg-scale '/home/balinteus/Downloads/Wallpapers/inordertobuildyouhavetoknow_inordertoknowyouhavetobuild_mod.png'
 # Start the dzen2 statusbar
-exec '/home/balinteus/.dotfiles/bin/dzen2_status.sh'
+exec '/home/balinteus/.dotfiles/linux/.local/bin/dzen2_status'

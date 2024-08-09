@@ -3,7 +3,7 @@ Description=Create a backup of the $HISTFILE
 
 [Service]
 Type=oneshot
-ExecStart=%h/.dotfiles/linux/scripts/backup_zsh_histfile.sh
+ExecStart=%h/.dotfiles/linux/.local/bin/backup_zsh_histfile
 
 [Install]
 WantedBy=default.target
