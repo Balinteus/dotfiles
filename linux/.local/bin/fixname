@@ -1,41 +1,144 @@
 #!/usr/bin/bash
 
+# Show help message
+show_help() {
+	echo -e "fixname - Replaces weird chars in file and dir names.\n
+Options:
+\t-h or --help\t\tShows this help message.
+\t-d or --dir-only\tPerforms fixname only on directories.
+\t-f or --file-only\tPerforms fixname only on files.
+\t-i or --interactive\tPerforms fixname interactively.
+\nArguments:
+\t'NO ARGUMENTS'\t\tPerforms fixname on all the files in the current working \
+dir.
+\t'WITH ARGUMENTS'\tPerforms fixname on the given files (separated by space)."
+}
+
+# Script state
+dir_only=0
+file_only=0
+do_interactively=0
+
+# Get options
+#-l "help,dir-only,file-only,interactively"
+# TODO: Make it so it accepts multiple options at once
+while getopts "hdfi" opt; do
+	case "$opt" in
+		h|help|\?) show_help; exit 0 ;;
+		d|dir-only) shift; dir_only=1 ;;
+		f|file-only) shift; file_only=1 ;;
+		i|interactively) shift; do_interactively=1 ;;
+	esac
+done
+
 # Create a dict with the accented characters
 declare -A accented_chars
 accented_chars+=( [á]=a [é]=e [í]=i [ó]=o [ö]=o [ő]=o [ú]=u [ü]=u [ű]=u )
+accented_chars+=( [Á]=A [É]=E [Í]=I [Ó]=O [Ö]=O [Ő]=O [Ú]=U [Ü]=U [Ű]=U )
 
 # Replaces the spaces with underscores
-function remove_spaces() {
-	space=" "
+remove_spaces() {
+	space="\ "
 	separator="_"
-	echo $1 | sed "s/$space/$separator/g"
+	echo "$1" | sed "s/$space/$separator/g"
 }
 
-# Replaces the accented characters
-function replace_accented() {
-	kek="$1"
+# Replaces the accented characters in the given string
+replace_accented() {
+	temp="$1"
 
 	for key in "${!accented_chars[@]}"; do
-		#echo "$1 $key ${accented_chars[$key]}"
 		if [[ $1 == *"$key"* ]]; then
-			kek=$(echo "$kek" | sed "s/$key/${accented_chars[$key]}/g")
+			temp=$(echo "$temp" | sed "s/$key/${accented_chars[$key]}/g")
 		fi
 	done
 
-	echo $kek
+	echo "$temp"
+}
+
+# Fixname
+fix_up_name() {
+	# Construct the new name of the file
+	fixed_name="$(replace_accented "$(remove_spaces "$1")")"
+
+	# If the interactive options is set, then ask for confirmation
+	while (( $do_interactively )); do
+		read -p "Do you want to rename '$1' to '$fixed_name'? [y/n] " optr
+		case $optr in
+			[Yy]* ) break ;;
+			[Nn]* ) exit 1 ;;
+		esac
+	done
+
+	# Check if an actual name change happend
+	if [[ "$1" != "$fixed_name" ]]; then
+		# echo "$fixed_name" #mv "$1" "$fixed_name"
+		echo "$fixed_name - d_int: $do_interactively, dir_o: $dir_only, \
+fil_o: $file_only"
+	else
+		# If the name remains the same after the change, then skip the renaming
+		# Exit with an error, so we don't increment the counter
+		exit 1
+	fi
+
+	# Exit with success
+	# This tells the incrementer to count the operation as a success
+	exit 0
 }
 
 # Main script logic
-if [[ $# -eq 0 ]]; then
-	# FIX ALL the filenames in the current working directory
-	echo "replace all"
-else
-	# FIX ONLY THE SELECTED filenames
-	echo "replace only the selected ones"
 
-	for arg in $@; do
-		remove_spaces $arg
-		echo "$(replace_accented $arg)"
+# Initialize counters
+declare -i rename_counter input_num
+rename_counter=0
+input_num=0
+
+# If no arguments were given, then scan the whole working dir
+if [[ $# -eq 0 ]]; then
+	echo -e "Renaming all the files in the current dir..."
+
+	# Get the number of files in the current dir
+	input_num=$( shopt -s nullglob ; set -- "$pwd/*" ; echo "$#" )
+
+	# Iterate through the files in the dir
+	for file in *; do
+		# Check the filters
+		# TODO: Refactor this! DRY af... Move these checks to `fix_up_name`!
+		# TODO: Add an `-e: exists` check!
+		if ( [[ -d "$file" ]] && (( $dir_only )) ) ||
+			( [[ -f "$file" ]] && (( $file_only )) ) ||
+			( (( !dir_only && !file_only )) ); then
+			# Check if we need to increment the rename_counter
+			if ( fix_up_name "$arg" ); then
+				rename_counter+=1
+			fi
+		else
+			echo -e "ERROR: $arg can't be renamed, because it doesn't comply\
+with the given filters!"
+		fi
+	done
+else
+	echo -e "Renaming the given files..."
+
+	for arg in "$@"; do
+		# Count given files
+		input_num+=1
+
+		# Check the filters
+		# TODO: Refactor this! DRY af... Move these checks to `fix_up_name`!
+		# TODO: Add an `-e: exists` check!
+		if ( [[ -f "$arg" ]] && (( $file_only )) ) ||
+			( [[ -d "$arg" ]] && (( $dir_only )) ) ||
+			( (( !file_only && !dir_only )) ); then
+			# Check if we need to increment the rename_counter
+			if ( fix_up_name "$arg" ); then
+				rename_counter+=1
+			fi
+		else
+			echo -e "ERROR: \"$arg\" can't be renamed, because it doesn't \
+comply with the given filters!"
+		fi
 	done
 fi
 
+echo -e "Operation completed! Renamed $rename_counter/$input_num files."
