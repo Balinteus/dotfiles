@@ -19,17 +19,22 @@ dir_only=0
 file_only=0
 do_interactively=0
 
+# Initialize counters
+declare -i rename_counter input_num
+rename_counter=0
+input_num=0
+
 # Get options
-#-l "help,dir-only,file-only,interactively"
-# TODO: Make it so it accepts multiple options at once
 while getopts "hdfi" opt; do
 	case "$opt" in
-		h|help|\?) show_help; exit 0 ;;
-		d|dir-only) shift; dir_only=1 ;;
-		f|file-only) shift; file_only=1 ;;
-		i|interactively) shift; do_interactively=1 ;;
+		h|help) show_help; exit 0 ;;
+		d|dir-only) dir_only=1 ;;
+		f|file-only) file_only=1 ;;
+		i|interactively) do_interactively=1 ;;
 	esac
 done
+
+shift $((OPTIND - 1))
 
 # Create a dict with the accented characters
 declare -A accented_chars
@@ -72,9 +77,11 @@ fix_up_name() {
 
 	# Check if an actual name change happend
 	if [[ "$1" != "$fixed_name" ]]; then
-		# echo "$fixed_name" #mv "$1" "$fixed_name"
-		echo "$fixed_name - d_int: $do_interactively, dir_o: $dir_only, \
-fil_o: $file_only"
+		if (( $(mv -vi "$1" "$fixed_name" | tee /dev/tty | wc -l) >= 1)); then
+			exit 0
+		else
+			exit 1
+		fi
 	else
 		# If the name remains the same after the change, then skip the renaming
 		# Exit with an error, so we don't increment the counter
@@ -86,36 +93,37 @@ fil_o: $file_only"
 	exit 0
 }
 
-# Main script logic
+# Filter checker
+# (parameter 1: function to be executed, paramter 2: filename)
+check_filters() {
+	if [[ -e "$2" ]] && (
+		( [[ -d "$2" ]] && (( $dir_only )) ) ||
+		( [[ -f "$2" ]] && (( $file_only )) ) ||
+		( (( !dir_only && !file_only )) )
+	); then
+		# Check if we need to increment the rename_counter
+		if ( $1 "$2" ); then
+			rename_counter+=1
+		fi
+	else
+		echo -e "ERROR: \"$2\" can't be renamed, because it doesn't comply \
+with the given filters or the passed filename doesn't exist!"
+	fi
+}
 
-# Initialize counters
-declare -i rename_counter input_num
-rename_counter=0
-input_num=0
+# Main script logic
 
 # If no arguments were given, then scan the whole working dir
 if [[ $# -eq 0 ]]; then
 	echo -e "Renaming all the files in the current dir..."
 
 	# Get the number of files in the current dir
-	input_num=$( shopt -s nullglob ; set -- "$pwd/*" ; echo "$#" )
+	input_num=$(shopt -s nullglob;num_of_files=(*);echo "${#num_of_files[@]}")
 
 	# Iterate through the files in the dir
 	for file in *; do
-		# Check the filters
-		# TODO: Refactor this! DRY af... Move these checks to `fix_up_name`!
-		# TODO: Add an `-e: exists` check!
-		if ( [[ -d "$file" ]] && (( $dir_only )) ) ||
-			( [[ -f "$file" ]] && (( $file_only )) ) ||
-			( (( !dir_only && !file_only )) ); then
-			# Check if we need to increment the rename_counter
-			if ( fix_up_name "$arg" ); then
-				rename_counter+=1
-			fi
-		else
-			echo -e "ERROR: $arg can't be renamed, because it doesn't comply\
-with the given filters!"
-		fi
+		# Check filters & do the renaming
+		check_filters fix_up_name "$file"
 	done
 else
 	echo -e "Renaming the given files..."
@@ -124,20 +132,8 @@ else
 		# Count given files
 		input_num+=1
 
-		# Check the filters
-		# TODO: Refactor this! DRY af... Move these checks to `fix_up_name`!
-		# TODO: Add an `-e: exists` check!
-		if ( [[ -f "$arg" ]] && (( $file_only )) ) ||
-			( [[ -d "$arg" ]] && (( $dir_only )) ) ||
-			( (( !file_only && !dir_only )) ); then
-			# Check if we need to increment the rename_counter
-			if ( fix_up_name "$arg" ); then
-				rename_counter+=1
-			fi
-		else
-			echo -e "ERROR: \"$arg\" can't be renamed, because it doesn't \
-comply with the given filters!"
-		fi
+		# Check filters & do the renaming
+		check_filters fix_up_name "$arg"
 	done
 fi
 
