@@ -1,2 +1,6 @@
+# ZSH
 linux/.local/share/zsh/plugins/*
 !linux/.local/share/zsh/plugins/vi-mode/
+
+# NVIM
+lazy-lock.json
