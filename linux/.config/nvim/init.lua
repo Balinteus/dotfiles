@@ -3,6 +3,7 @@ vim.g.mapleader = ' '
 vim.keymap.set({'i', 'c'}, "jk", "<ESC>")
 vim.keymap.set('n', "<leader>é", "<CMD>Lex<CR>")
 vim.keymap.set('n', "<ESC>", "<CMD>nohlsearch<CR>")
+vim.keymap.set('n', "<C-TAB>", "<CMD>b#<CR>")
 
 -- Basic Sets
 vim.o.nu = true
@@ -28,6 +29,7 @@ vim.g.linebreak = true
 
 vim.o.autochdir = true
 vim.o.autoread = true
+vim.o.undofile = true
 vim.g.noswapfile = true
 
 vim.o.smartindent = true
@@ -36,7 +38,7 @@ vim.o.shiftwidth = 4
 vim.o.softtabstop = 4
 
 vim.schedule(function()
-	vim.o.clipboard = "unnamedplus"
+  vim.o.clipboard = "unnamedplus"
 end)
 
 -- NETRW Settings
