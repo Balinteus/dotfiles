@@ -34,7 +34,7 @@ hunspell-en_us
 hunspell-hu
 inkscape
 jless
-jmk-x11-fonts
+jmk-x11-fonts-git
 keepassxc
 less
 libreoffice-fresh
