@@ -30,10 +30,10 @@ yellow = "0xf7d325"
 
 [font]
 size = 10
-normal = { family = "jmk Neep", style = "SemiCondensed" }
-bold = { family = "jmk Neep", style = "Bold"}
-italic = { family = "jmk Neep", style = "Italic" }
-bold_italic = { family = "jmk Neep", style = "Bold Italic" }
+normal = { family = "jmk Neep Alt", style = "SemiCondensed" }
+bold = { family = "jmk Neep Alt", style = "Bold"}
+italic = { family = "jmk Neep Alt", style = "Italic" }
+bold_italic = { family = "jmk Neep Alt", style = "Bold Italic" }
 
 [keyboard]
 bindings = [
