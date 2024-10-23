@@ -38,6 +38,7 @@ unsetopt flowcontrol
 # Keybinds
 bindkey -M viins 'jk' vi-cmd-mode
 bindkey '^n' expand-or-complete
+bindkey '^h' backward-kill-word
 
 # Custom Aliases
 alias vim="nvim"
