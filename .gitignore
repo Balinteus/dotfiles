@@ -1,4 +1,5 @@
 # ZSH
+linux/.config/zsh/.zcompdump
 linux/.local/share/zsh/plugins/*
 !linux/.local/share/zsh/plugins/vi-mode/
 
