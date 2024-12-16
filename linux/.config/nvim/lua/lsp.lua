@@ -1,20 +1,27 @@
--- LSP keybinds
+-- LSP Setup
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
-	callback = function(event)
-		-- Helper function (just to make it shorter)
-		local nmap = function(bind, action)
-			vim.keymap.set('n', bind, action, { buffer = event.buf })
-		end
+  group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
+  callback = function(event)
+    -- Helper function (just to make it shorter)
+    local nmap = function(bind, action)
+      vim.keymap.set('n', bind, action, { buffer = event.buf })
+    end
 
-		nmap('<leader>ca', vim.lsp.buf.code_action)
-		nmap('<F2>', vim.lsp.buf.rename)
+    -- Hook up the lsp_signature.nvim plugin
+    require("lsp_signature").on_attach(
+        { require("plugins.settings.lsp_signatures")[1].opts },
+        event.buf
+    )
 
-		nmap('K', vim.lsp.buf.hover)
-		nmap('<C-k>', vim.lsp.buf.signature_help)
+    -- LSP Keybinds
+    nmap('<A-CR>', vim.lsp.buf.code_action)
+    nmap('<F2>', vim.lsp.buf.rename)
 
-		nmap('gd', vim.lsp.buf.definition)
-	end
+    nmap('K', vim.lsp.buf.hover)
+    nmap('<C-k>', vim.lsp.buf.signature_help)
+
+    nmap('gd', vim.lsp.buf.definition)
+  end
 })
 
 -- Diagnostic keybinds
