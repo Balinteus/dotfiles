@@ -3,5 +3,5 @@
 echo -e "\0prompt\x1fWebsearch"
 
 if [[ ! -z "$@" ]]; then
- coproc ( firefox --new-tab --search "$@"  > /dev/null  2>&1 )
+ coproc ( firefox "https://duckduckgo.com/$@"  > /dev/null  2>&1 )
 fi
