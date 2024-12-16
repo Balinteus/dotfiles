@@ -1,9 +1,10 @@
 #!/usr/bin/bash
 
-# gitea_remote_updater.sh - A small script that updates my remote URLs, so I can access my self-hosted gitea instance easily.
+# gitea_remote_updater.sh - A small script that updates my remote URLs, so I
+#    can access my self-hosted gitea instance easily.
 #
 # Usage:
-#   - The script can be configured with the environmental variables listed below.
+#   - The script can be configured with the environment variables listed below.
 #   - GITEA_ACCESS_POINTS -> Example value: "111.666.111.18:git.example.com:10.0.0.0"
 #   - GITEA_PORT -> (OPTIONAL) Specify the instance's port here. Example value: "8080"
 #   - GITEA_SAFE -> (OPTIONAL) Set it to "true" if you instance uses HTTPS.
@@ -29,12 +30,13 @@ if [[ ! -z "$GITEA_ACCESS_POINTS" ]]; then
   IFS=':' read -r -a access_points <<< "$GITEA_ACCESS_POINTS"
 else
   echo "ERROR: Can't find the access points!"
-  echo "Make sure to set the the GITEA_ACCESS_POINTS environmental variable in your .profile with your instance's IPs with : between each value!"
+  echo "Make sure to set the the GITEA_ACCESS_POINTS environmental variable \
+in your .profile with your instance's IPs with : between each value!"
   exit 1
 fi
 
 # Get the working one
-function get_working_access_point() {
+get_working_access_point() {
   local index="${1:-0}"
   local t=$(timeout 2 ping -c 1 ${access_points[index]} | grep -m 1 "bytes from" | awk '{print $4}' | tr -d ':')
 
@@ -56,7 +58,7 @@ else
 fi
 
 # A function that changes the remote's URL to a newly constructed URL that points to the correct repo
-function change_url() {
+change_url() {
   local remote="${1:-origin}"
 
   local repo="$(git remote get-url origin | tr -s '/' ' ' | awk '{print $(NF-1)"/"$NF}')"
@@ -74,12 +76,13 @@ function change_url() {
   fi
 }
 
-function add_gitea_remote() {
+add_gitea_remote() {
   local repo="$(git remote get-url origin | tr -s '/' ' ' | awk '{print $(NF-1)"/"$NF}')"
   local url="$selected_access_point$repo"
 
 
-  read -p "Do you want to create a new remote called: gitea, with the generated URL? [Y/n] " in_ra
+  read -p "Do you want to create a new remote called: gitea, with the \
+generated URL? [Y/n] " in_ra
   [ -z "$in_ra" ] && in_ra="Y"
   case $in_ra in
     [Yy]* ) git remote add gitea $url;echo "Done!";exit;;

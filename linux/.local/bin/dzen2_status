@@ -11,7 +11,7 @@
 # -------------------------
 # Dzen settings & Variables
 # -------------------------
-ICONPATH="$HOME/.dotfiles/.icons/dzen2-icons"
+ICONPATH="$XDG_DATA_HOME/icons/dzen2-icons"
 COLOR_ICON="#a01416"
 SEPARATOR_COLOR="#ff0a0a"
 GOOD_COLOR="#00ff00"
@@ -21,8 +21,8 @@ DZEN_FG="#ffffff"
 DZEN_BG="#101010"
 HEIGHT=19	# Default: 12
 WIDTH=1000	# Default: 470
-RESOLUTIONW=`xrandr | grep "current" | awk '{print $8}'` 
-RESOLUTIONH=`xrandr | grep "current" | awk '{print $10}' | tr -d ','`
+RESOLUTIONW=$(xrandr | grep "current" | awk '{print $8}')
+RESOLUTIONH=$(xrandr | grep "current" | awk '{print $10}' | tr -d ',')
 X=$(($RESOLUTIONW-$WIDTH))
 #Y=$(($RESOLUTIONH-$HEIGHT-1))	# Bottom right corner
 Y=0	# Top right corner
@@ -47,10 +47,10 @@ sleep ${SLEEP}
 Vol ()
 {
 	VOL=$(pamixer --get-volume-human)
-	if [[ "${VOL}" = "muted" ]] ; then
-		echo -n "^ca(1,pavucontrol)^ca(3,pamixer -t)^fg($COLOR_ICON)^i($ICONPATH/spkr_02.xbm)^fg() -^ca()^ca()"
+	if [ "${VOL}" = "muted" ] ; then
+		echo "^ca(1,pavucontrol)^ca(3,pamixer -t)^fg($COLOR_ICON)^i($ICONPATH/spkr_02.xbm)^fg() -^ca()^ca()"
 	else
-		echo -n "^ca(1,pavucontrol)^ca(3,pamixer -t)^fg($COLOR_ICON)^i($ICONPATH/spkr_01.xbm)^fg() ${VOL}^ca()^ca()"
+		echo "^ca(1,pavucontrol)^ca(3,pamixer -t)^fg($COLOR_ICON)^i($ICONPATH/spkr_01.xbm)^fg() ${VOL}^ca()^ca()"
 	fi
     return
 }
@@ -59,17 +59,17 @@ Mem ()
 {
 	#MEM=$(free -m | grep 'Mem' | tr -s '[:blank:]' | awk '{print $3, "M"}')
 	MEM=$(free -h --si | grep 'Mem:' | tr -s '[:blank:]' | awk '{print substr($3, 1, length($3)-1), substr($3, length($3), 1)}')
-	echo -n "^ca(1,alacritty -e htop)^fg($COLOR_ICON)^i($ICONPATH/mem.xbm)^fg() ${MEM}^ca()"
+	echo "^ca(1,alacritty -e htop)^fg($COLOR_ICON)^i($ICONPATH/mem.xbm)^fg() ${MEM}^ca()"
 	return
 }
 
 Temp ()
 {
 	TEMP=$(acpi -t | awk '{print $4}' | tr -d '.0')
-		if [[ ${TEMP} -gt 63 ]] ; then
-			echo -n "^fg($CRIT_COLOR)^i($ICONPATH/temp.xbm)^fg($CRIT_COLOR) ${TEMP}°C" $(echo ${TEMP} | gdbar -fg $CRIT_COLOR -bg $BAR_BG -h $BAR_H -s v -sw 5 -ss 0 -sh 1 -nonl)
-		else 
-			echo -n "^fg($COLOR_ICON)^i($ICONPATH/temp.xbm)^fg() ${TEMP}°C" $(echo ${TEMP} | gdbar -fg $BAR_FG -bg $BAR_BG -h $BAR_H -s v -sw 5 -ss 0 -sh 1 -nonl)
+		if [ ${TEMP} -gt 63 ] ; then
+			echo "^fg($CRIT_COLOR)^i($ICONPATH/temp.xbm)^fg($CRIT_COLOR) ${TEMP}°C" $(echo ${TEMP} | gdbar -fg $CRIT_COLOR -bg $BAR_BG -h $BAR_H -s v -sw 5 -ss 0 -sh 1 -nonl)
+		else
+			echo "^fg($COLOR_ICON)^i($ICONPATH/temp.xbm)^fg() ${TEMP}°C" $(echo ${TEMP} | gdbar -fg $BAR_FG -bg $BAR_BG -h $BAR_H -s v -sw 5 -ss 0 -sh 1 -nonl)
 		fi
 	return
 }
@@ -77,10 +77,10 @@ Temp ()
 Disk ()
 {
 	SDA5=$(df -h / | awk '/\/$/ {print $5}' | tr -d '%')
-	if [[ ${SDA5} -gt 60 ]] ; then
-		echo -n "^fg($COLOR_ICON)^i($ICONPATH/fs_01.xbm)^fg() /:${SDA5}% $(echo $SDA5 | gdbar -fg $CRIT_COLOR -bg $BAR_BG -h 7 -w 40 -s o -ss 0 -sw 2 -nonl)"
+	if [ ${SDA5} -gt 60 ] ; then
+		echo "^fg($COLOR_ICON)^i($ICONPATH/fs_01.xbm)^fg() /:${SDA5}% $(echo $SDA5 | gdbar -fg $CRIT_COLOR -bg $BAR_BG -h 7 -w 40 -s o -ss 0 -sw 2 -nonl)"
 	else
-		echo -n "^fg($COLOR_ICON)^i($ICONPATH/fs_01.xbm)^fg() /:${SDA5}% $(echo $SDA5 | gdbar -fg $BAR_FG -bg $BAR_BG -h 7 -w 40 -s o -ss 0 -sw 2 -nonl)"
+		echo "^fg($COLOR_ICON)^i($ICONPATH/fs_01.xbm)^fg() /:${SDA5}% $(echo $SDA5 | gdbar -fg $BAR_FG -bg $BAR_BG -h 7 -w 40 -s o -ss 0 -sw 2 -nonl)"
 	fi
 	return
 }
@@ -93,12 +93,12 @@ Wifi ()
 	else
 		ESSID=$(echo "${WIFI_INFO}" | grep 'SSID:' | awk '{print $2}')
 		QUALITY=$(nmcli dev wifi | grep "*" | tr -s '[:blank:]' | awk '{print $8}')
-		if [[ ${QUALITY} -gt 50 ]] ; then
+		if [ ${QUALITY} -gt 50 ] ; then
 			QUALITY_COLOR=$GOOD_COLOR
 		else
 			QUALITY_COLOR=$MODERATE_COLOR
 		fi
-		echo -n "^ca(1,alacritty -e nmtui)^fg($COLOR_ICON)^i($ICONPATH/wifi_02.xbm)^fg() ${ESSID} (^fg($QUALITY_COLOR)${QUALITY}%^fg())^ca()"
+		echo "^ca(1,alacritty -e nmtui)^fg($COLOR_ICON)^i($ICONPATH/wifi_02.xbm)^fg() ${ESSID} (^fg($QUALITY_COLOR)${QUALITY}%^fg())^ca()"
 	fi
 	return
 }
@@ -109,7 +109,7 @@ Date ()
 	TIME=$(date +"%H:%M:%S")
 	#TIME=$(date +"%Y-%m-%d %H:%M:%S")
 	#TIME=$(date +%R)
-	echo -n "^fg($COLOR_ICON)^i($ICONPATH/calendar_9x9.xbm)^fg($DZEN_FG) ${DATE} ^fg($COLOR_ICON)^i($ICONPATH/clock.xbm)^fg($DZEN_FG) ${TIME}"
+	echo "^fg($COLOR_ICON)^i($ICONPATH/calendar_9x9.xbm)^fg($DZEN_FG) ${DATE} ^fg($COLOR_ICON)^i($ICONPATH/clock.xbm)^fg($DZEN_FG) ${TIME}"
 	return
 }
 
@@ -125,13 +125,13 @@ Battery ()
 	if [ "${BATTERY_PERCENT}" = "" ] ; then
 		BATTERY_PERCENT=$(acpi -b | grep 'Charging,' | awk '{print $4}' | tr -d ',')
 
-		if [[ ${OTHER_BATTERY_PERCENT} -le 5 ]] ; then
+		if [ ${OTHER_BATTERY_PERCENT} -le 5 ] ; then
 			echo -n "^fg($COLOR_ICON)^i($ICONPATH/ac_01.xbm)^fg() ${BATTERY_PERCENT}"
 		else
 			echo -n "^fg($COLOR_ICON)^i($ICONPATH/ac_02.xbm)^fg() ${BATTERY_PERCENT}"
 		fi
 
-	elif [[ ${OTHER_BATTERY_PERCENT} -le 5 ]] ; then
+	elif [ ${OTHER_BATTERY_PERCENT} -le 5 ] ; then
 		echo -n "^fg($COLOR_ICON)^i($ICONPATH/bat_empty_02.xbm)^fg() ${BATTERY_PERCENT}"
 	else
 		echo -n "^fg($COLOR_ICON)^i($ICONPATH/bat_full_02.xbm)^fg() ${BATTERY_PERCENT}"
@@ -141,7 +141,7 @@ Battery ()
 
 Between ()
 {
-    echo -n " ^fg($SEPARATOR_COLOR)^r(2x10)^fg() "
+    echo " ^fg($SEPARATOR_COLOR)^r(2x10)^fg() "
 	return
 }
 
@@ -149,7 +149,7 @@ OSLogo ()
 {
 	#OS=$(uname -a | awk '{print $2}')
 	#echo -n " ^fg($COLOR_ICON)^i($ICONPATH/${OS}.xbm)^fg()"
-	echo -n " ^ca(1,flameshot gui)^fg($COLOR_ICON)^i($ICONPATH/arch.xbm)^fg()^ca()"
+	echo " ^ca(1,flameshot gui)^fg($COLOR_ICON)^i($ICONPATH/arch.xbm)^fg()^ca()"
 	return
 }
 # --------- End Of Functions
@@ -173,5 +173,5 @@ Print () {
     return
 }
 
-echo "$(Print)" 
+Print
 done | $DZEN &
