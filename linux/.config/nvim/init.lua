@@ -4,6 +4,8 @@ vim.keymap.set({'i', 'c'}, "jk", "<ESC>")
 vim.keymap.set('n', "<leader>é", "<CMD>Lex<CR>")
 vim.keymap.set('n', "<ESC>", "<CMD>nohlsearch<CR>")
 vim.keymap.set('n', "<C-TAB>", "<CMD>b#<CR>")
+vim.keymap.set('i', "<C-BS>", "<C-W>")
+-- vim.keymap.set('i', "<C-H>", "<C-W>")
 
 -- Basic Sets
 vim.o.nu = true
@@ -43,6 +45,7 @@ end)
 
 -- NETRW Settings
 vim.g.netrw_banner = 0
+vim.g.netrw_bufsettings = "noma nomod nu rnu nobl nowrap ro"
 
 -- Buffer switching binds
 for i=1,9 do
