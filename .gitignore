@@ -5,6 +5,7 @@ linux/.local/share/zsh/plugins/*
 
 # NVIM
 lazy-lock.json
+linux/.config/nvim/lua/plugins/settings/temporary.lua
 
 # MISC
 linux/.config/.aliases
