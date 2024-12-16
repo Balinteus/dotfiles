@@ -5,3 +5,6 @@ linux/.local/share/zsh/plugins/*
 
 # NVIM
 lazy-lock.json
+
+# MISC
+linux/.config/.aliases
