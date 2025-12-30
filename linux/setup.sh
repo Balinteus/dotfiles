@@ -36,6 +36,13 @@ minimal_setup()
   if [[ ! -d $XDG_CONFIG_HOME ]]; then mkdir -p $XDG_CONFIG_HOME; fi
   if [[ ! -d $XDG_DATA_HOME ]]; then mkdir -p $XDG_DATA_HOME; fi
 
+  # Make sure that the $HISTFILE is created
+  hist_file_dir=$(echo $HISTFILE | sed 's/\/[^\/]*$//')
+  if [[ ! -d $hist_file_dir ]]; then
+      mkdir -p $hist_file_dir
+      touch $HISTFILE
+  fi
+
   # Choose the prefered editor
   while true; do
     echo -e "${PREFIX_HEADER}Which editor would you \
